@@ -1,4 +1,6 @@
 """ a simple Distributing lock. with no expired function"""
+""" also a sample for contextmanager """
+""" 使用 simple_loc 阻塞多线程 无聊-_-bbbb"""
 from contextlib import contextmanager
 import threading
 import time
@@ -21,7 +23,7 @@ _myLock = {}
 SLEEP_SECONDS = .1
 
 @contextmanager
-def simple_lock(key, timeout,pid):
+def simple_lock(key, timeout, pid):
     """simple lock."""
     try:
         locked = False
@@ -29,12 +31,12 @@ def simple_lock(key, timeout,pid):
             if _myLock.get(key, None):
                 # already lock , retry
                 print "wait the lock", pid
+                time.sleep(SLEEP_SECONDS)
             else:
                 _myLock[key] = True
                 locked = True
                 print "get the lock", pid
                 break
-            time.sleep(SLEEP_SECONDS)
         if not locked:
             print "get lock timeout!", pid 
         yield locked
